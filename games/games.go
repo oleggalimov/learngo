@@ -59,23 +59,19 @@ func calculateNeighbours(x, y int, matrix [][]int) int {
 
 	// Подсчёт количества живых соседей
 	for i := x - 1; i <= x+1; i++ {
-		if i < 0 || i >= n {
-			continue
-		}
 		for j := y - 1; j <= y+1; j++ {
-			if j < 0 || j >= n {
-				continue
-			}
-
 			if i == x && j == y {
 				continue // Пропускаем саму клетку
 			}
-			if matrix[i][j] == 1 {
+
+			// Обработка границ как условно бесконечных
+			ni := (i + n) % n
+			nj := (j + n) % n
+
+			if matrix[ni][nj] == 1 {
 				neighbours++
 			}
-
 		}
-
 	}
 
 	return neighbours
