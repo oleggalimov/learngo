@@ -1,11 +1,12 @@
 package games
 
 import (
+	"flag"
 	"learngo/utils"
 	"time"
 )
 
-var Glider = [][]int{
+var glider = [][]int{
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
@@ -18,7 +19,15 @@ var Glider = [][]int{
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 }
 
-func LiveGame(matrix [][]int, timeout, iterations int) {
+func LiveGame() {
+	// Парсим флаги из командной строки
+	var timeout float64
+	var iterations int
+	var matrix = glider
+	flag.Float64Var(&timeout, "timeout", 1.0, "Таймаут между итерациями")
+	flag.IntVar(&iterations, "iterations", 50, "Таймаут между итерациями")
+	flag.Parse()
+
 	n := len(matrix)
 
 	// Печатаем начальное состояние
@@ -43,7 +52,7 @@ func LiveGame(matrix [][]int, timeout, iterations int) {
 		matrix = newMatrix
 
 		// Ждём перед отображением следующего поколения
-		time.Sleep(time.Duration(timeout) * time.Second)
+		time.Sleep(time.Duration(timeout * float64(time.Second)))
 		utils.PrintMatrix(matrix)
 	}
 }
